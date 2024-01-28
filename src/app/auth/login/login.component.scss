@@ -27,6 +27,7 @@
   box-shadow: 12px 12px 14px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
   --mdc-elevated-card-container-color: #fff;
   padding: 20px;
+  width: 50%;
 }
 .container{
     margin: 0;
@@ -37,6 +38,10 @@
     transform: translate(-50%, -50%);
     /* top: 50%; */
     /* left: 21%; */
+}
+.d-flex{
+  display: flex;
+  justify-content: center;
 }
 // .mdc-card{
 //   background: #000000;
