@@ -1,0 +1,9 @@
+<app-map
+  [zoom]="zoom"
+  [lat]="lat"
+  [lng]="lng"
+  (notify)="handleMapChange($event)"
+  (hitPoint)="handleMapClick($event)"
+></app-map>
+<button (click)="logout()" color="primary" mat-raised-button> Logout </button>
+

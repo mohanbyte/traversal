@@ -1,0 +1,47 @@
+
+.mdc-card__actions{
+  justify-content: space-evenly;
+}
+.main-container{
+  display: flex;
+  justify-content: center;
+}
+.mt-4{
+  margin-top: 100px
+}
+.mat-mdc-form-field {
+
+  min-width: 300px
+}
+//centering formfields
+.mat-mdc-card-content{
+  text-align: center;
+}
+.mat-mdc-card-title{
+
+  text-align: center;
+  font-size: large;
+  padding: 20px;
+}
+.mat-mdc-card {
+  box-shadow: 12px 12px 14px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
+  --mdc-elevated-card-container-color: #fff;
+  padding: 20px;
+}
+.container{
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+    /* top: 50%; */
+    /* left: 21%; */
+}
+// .mdc-card{
+//   background: #000000;
+//   /* color: white; */
+//   border-radius: 17px;
+// }
+
+

@@ -30,7 +30,6 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { NgModule } from '@angular/core';
 import { MatFormFieldModule } from '@angular/material/form-field';
-
 import { MatTreeModule } from '@angular/material/tree';
 
 @NgModule({
@@ -68,7 +67,7 @@ import { MatTreeModule } from '@angular/material/tree';
     MatTooltipModule,
     MatAutocompleteModule,
     MatFormFieldModule,
-    MatDialogModule,
+    MatDialogModule
   ],
   declarations: [],
 })
