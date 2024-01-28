@@ -3,17 +3,20 @@ import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { RouterModule, Routes } from '@angular/router';
-const path: Routes = [
-  {
-    path: '',
-    loadChildren: () =>
-      import('overview/Component').then((m) => m.OverviewModule),
-  },
-];
+import { MapComponent } from './map/map.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MaterialModule } from './material.module';
+import { GeneralModule } from './general/general.module';
+
 @NgModule({
-  declarations: [AppComponent],
-  imports: [BrowserModule, AppRoutingModule, RouterModule.forRoot(path)],
+  declarations: [AppComponent, MapComponent],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    BrowserAnimationsModule,
+    MaterialModule,
+    GeneralModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
 })

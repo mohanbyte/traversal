@@ -1,2 +1,7 @@
-<p>Welcome to Base App</p>
-<router-outlet></router-outlet>
+<app-map
+  [zoom]="zoom"
+  [lat]="lat"
+  [lng]="lng"
+  (notify)="handleMapChange($event)"
+  (hitPoint)="handleMapClick($event)"
+></app-map>
