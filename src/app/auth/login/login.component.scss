@@ -2,9 +2,12 @@
 .mdc-card__actions{
   justify-content: space-evenly;
 }
-.main-container{
+.main-content{
   display: flex;
   justify-content: center;
+  width: 100%;
+  height: 100%;
+  background-image: url(../../../assets/background.jpg);
 }
 .mt-4{
   margin-top: 100px
