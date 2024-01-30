@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
-  styleUrls: ['./dashboard.component.scss']
+  styleUrls: ['./dashboard.component.scss'],
 })
 export class DashboardComponent {
   title = 'here-maps';
@@ -12,14 +12,14 @@ export class DashboardComponent {
   lat: number;
   lng: number;
 
-  constructor(private router : Router){
+  constructor(private router: Router) {
     this.zoom = 5;
     this.lat = 0;
     this.lng = 0;
   }
 
-  logout(){
-    this.router.navigate(['login'])
+  logout() {
+    this.router.navigate(['login']);
   }
   // * Function Responsible for drag and zoom in the Here maps.
   handleMapChange(event: H.map.ChangeEvent) {
@@ -33,5 +33,8 @@ export class DashboardComponent {
 
   handleMapClick(event: H.map.HitArea) {
     console.log(999, event);
+  }
+  getRange(n: number): number[] {
+    return Array.from({ length: n }, (_, i) => i);
   }
 }
