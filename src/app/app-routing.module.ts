@@ -10,7 +10,9 @@ const routes: Routes = [{
 {
   path:'dashboard',
   component: DashboardComponent
-}];
+},
+{path: '**',
+redirectTo: 'login'}];
 
 @NgModule({
   imports: [RouterModule.forRoot(routes)],
