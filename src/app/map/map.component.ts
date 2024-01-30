@@ -116,10 +116,29 @@ export class MapComponent {
         });
 
         if (!self.isMarker) {
+          console.log(marker);
           map.addObject(marker);
           self.isMarker = false;
         }
       });
+/*       // Adjust the amount of zoom
+      var zoomStep = 1;
+      // Disable mouse wheel zoom
+      map.addEventListener('wheel', function (event: any) {
+        event.stopPropagation();
+        // Check if the user is scrolling up or down
+        var delta = Math.max(
+          -1,
+          Math.min(
+            1,
+            event.originalEvent.wheelDelta || -event.originalEvent.detail
+          )
+        );
+        console.log('delete', event);
+        // Adjust the zoom level by the defined step
+        map.setZoom(map.getZoom() + zoomStep * delta);
+      });
+ */
       new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     }
   }
