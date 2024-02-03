@@ -3,11 +3,6 @@
   <div class="col-9">
     <mat-card>
       <app-map
-        [zoom]="zoom"
-        [lat]="lat"
-        [lng]="lng"
-        (notify)="handleMapChange($event)"
-        (hitPoint)="handleMapClick($event)"
       ></app-map>
     </mat-card>
   </div>

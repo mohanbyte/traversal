@@ -4,3 +4,10 @@
   overflow-y: hidden !important;
   border-radius: 10px;
 }
+::ng-deep .map-container{
+  height: 94vh;
+  width: 500px;
+  position: relative;
+  overflow: hidden;
+  width: 72vw;
+}

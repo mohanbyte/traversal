@@ -9,6 +9,8 @@ import { MaterialModule } from './material.module';
 import { GeneralModule } from './general/general.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthModule } from './auth/auth.module';
+import { GoogleMapsModule } from '@angular/google-maps';
+import { HttpClientJsonpModule, HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, MapComponent, DashboardComponent],
@@ -18,7 +20,10 @@ import { AuthModule } from './auth/auth.module';
     BrowserAnimationsModule,
     MaterialModule,
     GeneralModule,
-    AuthModule
+    AuthModule,
+    GoogleMapsModule
+    , HttpClientModule,
+    HttpClientJsonpModule
   ],
   providers: [],
   bootstrap: [AppComponent],

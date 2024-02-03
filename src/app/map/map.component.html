@@ -1,1 +1,3 @@
-<div #map id="map"></div>
+<ng-container  *ngIf="apiLoaded | async">
+<google-map [options]="options" ></google-map>
+</ng-container>
