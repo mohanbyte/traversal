@@ -32,7 +32,7 @@ apiLoaded;
   @Output() notify = new EventEmitter();
   @Output() hitPoint = new EventEmitter();
   constructor(httpClient: HttpClient, public dialog: MatDialog) {
-    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=AIzaSyD_hZxIpKkDaCtmy6_lBlgncQ9LUOqVmH4', 'callback')
+    this.apiLoaded = httpClient.jsonp('https://maps.googleapis.com/maps/api/js?key=', 'callback')
         .pipe(
           map(() => true),
           catchError(() => of(false)),
