@@ -17,13 +17,13 @@ import { MatDialog } from '@angular/material/dialog';
   styleUrls: ['./map.component.scss'],
 })
 export class MapComponent {
-  private map?: H.Map;
+  private map?: any;
   @Input() public zoom = 2;
   @Input() public lat = 0;
   @Input() public lng = 0;
 
   isMarker: boolean = false;
-  markers: any=[];
+  markers: any[]=[];
   @ViewChild('map') mapDiv?: ElementRef;
 
   private timeoutHandle: any;
@@ -32,7 +32,7 @@ export class MapComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  openDialog( data : any) {
+  openDialog( data : any , marker?: any) {
     const dialogRef = this.dialog.open(PinDialogComponent, {
       width: '600px',
       data: {data}
@@ -40,6 +40,14 @@ export class MapComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
+      if(result){
+        this.map.removeObject(marker)
+        const index= this.markers.findIndex((element: any)=>{
+         return element== marker
+        });
+        this.markers.splice(index,1)
+        this.hitPoint.emit(this.markers)
+      }
       this.isMarker = false;
     });
   }
@@ -138,7 +146,7 @@ export class MapComponent {
       );
 
       marker.addEventListener('tap', function (evt: any) {
-        self.openDialog(result);
+        self.openDialog(result , marker);
         console.log(marker, 'pin');
 
         self.isMarker = true;

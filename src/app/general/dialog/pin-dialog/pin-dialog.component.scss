@@ -6,3 +6,12 @@
 .mat-mdc-dialog-title{
   font-size: 18px;
 }
+.header-container{
+display: flex;
+justify-content: space-between;
+}
+.delete{
+  align-self: center;
+  margin-right: 1rem;
+
+}
