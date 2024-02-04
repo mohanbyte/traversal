@@ -7,8 +7,7 @@ import {
   EventEmitter,
   SimpleChanges,
 } from '@angular/core';
-import H from '@here/maps-api-for-javascript';
-import onResize from 'simple-element-resize-detector';
+import H, { geo } from '@here/maps-api-for-javascript';
 import { PinDialogComponent } from '../general/dialog/pin-dialog/pin-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -33,8 +32,11 @@ export class MapComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  openDialog() {
-    const dialogRef = this.dialog.open(PinDialogComponent);
+  openDialog( title : string) {
+    const dialogRef = this.dialog.open(PinDialogComponent, {
+      width: '600px',
+      data: {title}
+    });
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
@@ -84,10 +86,12 @@ export class MapComponent {
           zoom: 5,
         }
       );
+      // add a resize listener to make sure that the map occupies the whole container
+      window.addEventListener('resize', () => map.getViewPort().resize());
 
-      onResize(this.mapDiv.nativeElement, () => {
-        map.getViewPort().resize();
-      });
+      // onResize(this.mapDiv.nativeElement, () => {
+      //   map.getViewPort().resize();
+      // });
       this.map = map;
       map.addEventListener('mapviewchange', (ev: H.map.ChangeEvent) => {
         this.notify.emit(ev);
@@ -97,49 +101,67 @@ export class MapComponent {
           ev.currentPointer.viewportX,
           ev.currentPointer.viewportY
         );
+        this.reverseGeocode(map ,
+          coordinates!.lat || 0,
+          coordinates!.lng || 0,
+          platform
+        )
 
-        // Put Marker on the latitude and longitude
-        var icon = new H.map.Icon('../../assets/location-pin.png', {
-          size: { w: 50, h: 50 },
-        });
-        var marker = new H.map.Marker(
-          {
-            lat: coordinates!.lat || 0,
-            lng: coordinates!.lng || 0,
-          },
-          { data: 'Destination', icon: icon }
-        );
-
-        marker.addEventListener('tap', function (evt: any) {
-          self.openDialog();
-          self.isMarker = true;
-        });
-
-        if (!self.isMarker) {
-          console.log(marker);
-          map.addObject(marker);
-          self.isMarker = false;
-        }
       });
-/*       // Adjust the amount of zoom
-      var zoomStep = 1;
-      // Disable mouse wheel zoom
-      map.addEventListener('wheel', function (event: any) {
-        event.stopPropagation();
-        // Check if the user is scrolling up or down
-        var delta = Math.max(
-          -1,
-          Math.min(
-            1,
-            event.originalEvent.wheelDelta || -event.originalEvent.detail
-          )
-        );
-        console.log('delete', event);
-        // Adjust the zoom level by the defined step
-        map.setZoom(map.getZoom() + zoomStep * delta);
-      });
- */
       new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     }
+  }
+  addMarker(map: any , platform: any ,lat : any , lng : any , title : any){
+
+    const self= this;
+      // Put Marker on the latitude and longitude
+      var icon = new H.map.Icon('../../assets/location-pin.png', {
+        size: { w: 50, h: 50 },
+      });
+
+
+      var marker = new H.map.Marker(
+        {
+       lat , lng
+        },
+        { data: title, icon: icon }
+      );
+
+      marker.addEventListener('tap', function (evt: any) {
+        self.openDialog(title);
+        console.log(marker, 'pin');
+        self.isMarker = true;
+      });
+
+      if (!self.isMarker) {
+        console.log(marker);
+        map.addObject(marker);
+        self.isMarker = false;
+      }
+  }
+ reverseGeocode(map: any , lat: any, lng: any, platform?: any) {
+    var geocoder = platform.getSearchService(),
+      reverseGeocodingParameters = {
+        at: lat + ',' + lng, // Berlin
+        limit: '1',
+      };
+    let result;
+    geocoder.reverseGeocode(
+      reverseGeocodingParameters,
+      (result: any) => {
+        this.addMarker(map, platform, lat , lng , result.items[0].title);
+      },
+      this.onError
+    );
+    return result;
+  }
+  onError(error: any) {
+    alert("Can't reach the remote server");
+  }
+
+  onSuccess(result: any) {
+    //var locations = result.items;
+
+    return result;
   }
 }
