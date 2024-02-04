@@ -14,8 +14,9 @@
   <div class="col-3 mt-5">
     <mat-card class="pin-card">
       <mat-card-content>
-        <mat-card class="my-2" *ngFor="let index of getRange(50); let i = index"
-          ><mat-card-content><h4>Pin List</h4></mat-card-content></mat-card
+        <mat-card class="my-2" *ngFor="let index of markers; let i = index" (click)="openPinDialog(index)"
+          ><mat-card-content><h4>{{index.data.title}}</h4>
+          <p> <b>Area :</b> {{index.data.address.county}}</p></mat-card-content></mat-card
         >
       </mat-card-content>
     </mat-card>

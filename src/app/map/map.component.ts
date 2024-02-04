@@ -23,7 +23,7 @@ export class MapComponent {
   @Input() public lng = 0;
 
   isMarker: boolean = false;
-
+  markers: any=[];
   @ViewChild('map') mapDiv?: ElementRef;
 
   private timeoutHandle: any;
@@ -32,10 +32,10 @@ export class MapComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  openDialog( title : string) {
+  openDialog( data : any) {
     const dialogRef = this.dialog.open(PinDialogComponent, {
       width: '600px',
-      data: {title}
+      data: {data}
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -111,7 +111,17 @@ export class MapComponent {
       new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
     }
   }
-  addMarker(map: any , platform: any ,lat : any , lng : any , title : any){
+
+  /**
+   *  Adds Pin on the specified coordinates
+   * @param map
+   * @param map map object
+   * @param lat Latittude of pin
+   * @param lng Longitude of pin
+   * @param platform platform object intialised with API Key
+   * @param title
+   */
+  addMarker(map: any , platform: any ,lat : any , lng : any , result : any){
 
     const self= this;
       // Put Marker on the latitude and longitude
@@ -124,21 +134,34 @@ export class MapComponent {
         {
        lat , lng
         },
-        { data: title, icon: icon }
+        { data: result, icon: icon }
       );
 
       marker.addEventListener('tap', function (evt: any) {
-        self.openDialog(title);
+        self.openDialog(result);
         console.log(marker, 'pin');
+
         self.isMarker = true;
       });
 
       if (!self.isMarker) {
         console.log(marker);
+
         map.addObject(marker);
+        self.markers.push(marker);
+        this.hitPoint.emit(this.markers)
+        console.log(map)
         self.isMarker = false;
       }
   }
+  /**
+   *
+   * @param map map object
+   * @param lat Latittude of pin
+   * @param lng Longitude of pin
+   * @param platform platform object intialised with API Key
+   * @returns
+   */
  reverseGeocode(map: any , lat: any, lng: any, platform?: any) {
     var geocoder = platform.getSearchService(),
       reverseGeocodingParameters = {
@@ -149,7 +172,7 @@ export class MapComponent {
     geocoder.reverseGeocode(
       reverseGeocodingParameters,
       (result: any) => {
-        this.addMarker(map, platform, lat , lng , result.items[0].title);
+        this.addMarker(map, platform, lat , lng , result.items[0]);
       },
       this.onError
     );
@@ -157,11 +180,5 @@ export class MapComponent {
   }
   onError(error: any) {
     alert("Can't reach the remote server");
-  }
-
-  onSuccess(result: any) {
-    //var locations = result.items;
-
-    return result;
   }
 }
