@@ -7,7 +7,8 @@ import {
   EventEmitter,
   SimpleChanges,
 } from '@angular/core';
-import H, { geo } from '@here/maps-api-for-javascript';
+import { geo } from '@here/maps-api-for-javascript';
+import * as  H from '@here/maps-api-for-javascript';
 import { PinDialogComponent } from '../general/dialog/pin-dialog/pin-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -79,21 +80,31 @@ export class MapComponent {
     let self = this;
     if (!this.map && this.mapDiv) {
       // Instantiate a platform, default layers and a map as usual.
-      const platform = new H.service.Platform({
-        apikey: 'KyObo0tFQfwTCFr5mtbgvvT6KxicyFV5tYSGNoz0_Fw',
+      const platform = new H['default'].service.Platform({
+        apikey: 'vJrfbfUY7UlHCvjAWR9maP3ggf9ES1dGcEBYaDNYAZ4',
       });
-      const layers = platform.createDefaultLayers();
-      const map = new H.Map(
+      const defaultLayers :any = platform.createDefaultLayers();
+      console.log(defaultLayers, "layers.full");
+      const layer = {
+        raster: defaultLayers?.raster,
+        vector: { normal: { map: defaultLayers.raster?.normal.map } },
+
+      }; //for the layers in our overview map
+
+      const map :any = new H['default'].Map(
         this.mapDiv.nativeElement,
-        // Add type assertion to the layers object...
-        // ...to avoid any Type errors during compilation.
-        (layers as any).vector.normal.map,
+        defaultLayers.raster.normal.map, //our overview default map
         {
           pixelRatio: window.devicePixelRatio,
-          center: { lat: 28, lng: 77 },
-          zoom: 5,
+          center: { lat: 21.7679, lng: 78.8718 },
+          politicalview: "IND",
+          zoom: 4,
         }
       );
+
+ const ui = H['default'].ui.UI.createDefault(map, defaultLayers);
+
+      // map.mapScene.enableFeatures([  H['MapFeatureModes'].buildingFootprints : H['MapFeatureModes'].buildingFootprintsAll]);
       // add a resize listener to make sure that the map occupies the whole container
       window.addEventListener('resize', () => map.getViewPort().resize());
 
@@ -116,7 +127,9 @@ export class MapComponent {
         )
 
       });
-      new H.mapevents.Behavior(new H.mapevents.MapEvents(map));
+   // uncomment
+  console.log(H, 'Maps')
+     new H['default'].mapevents.Behavior(new H['default'].mapevents.MapEvents(map));
     }
   }
 
@@ -133,12 +146,12 @@ export class MapComponent {
 
     const self= this;
       // Put Marker on the latitude and longitude
-      var icon = new H.map.Icon('../../assets/location-pin.png', {
+      var icon = new H['default'].map.Icon('../../assets/location-pin.png', {
         size: { w: 50, h: 50 },
       });
 
 
-      var marker = new H.map.Marker(
+      var marker = new H['default'].map.Marker(
         {
        lat , lng
         },
