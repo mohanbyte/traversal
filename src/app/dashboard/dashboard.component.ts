@@ -1,7 +1,7 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component } from '@angular/core';
 import { Router } from '@angular/router';
-import { PinDialogComponent } from '../general/dialog/pin-dialog/pin-dialog.component';
+import { PinDialogComponent } from './pin-dialog/pin-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -14,8 +14,8 @@ export class DashboardComponent {
   zoom: number;
   lat: number;
   lng: number;
-markers:any[]= [];
-  constructor(private router: Router , private dialog : MatDialog) {
+  markers: any[] = [];
+  constructor(private router: Router, private dialog: MatDialog) {
     this.zoom = 5;
     this.lat = 0;
     this.lng = 0;
@@ -33,10 +33,10 @@ markers:any[]= [];
       this.lng = lookAt.position.lng;
     }
   }
-  openPinDialog(data: any){
+  openPinDialog(data: any) {
     const dialogRef = this.dialog.open(PinDialogComponent, {
-      width: '600px',
-      data: {data: data.data}
+      width: '900px',
+      data: { data: data.data },
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
@@ -45,7 +45,7 @@ markers:any[]= [];
   }
   handleMapClick(event: any[]) {
     console.log(999, event);
-    this.markers= event;
+    this.markers = event;
   }
   getRange(n: number): number[] {
     return Array.from({ length: n }, (_, i) => i);

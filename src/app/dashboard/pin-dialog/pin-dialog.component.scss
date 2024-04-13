@@ -1,0 +1,24 @@
+.dialog-body {
+  width: 70vw;
+  height: 80vw;
+  overflow-y: auto;
+}
+.mat-mdc-dialog-title {
+  font-size: 18px;
+}
+.header-container {
+  display: flex;
+  justify-content: space-between;
+}
+.delete {
+  align-self: center;
+  margin-right: 1rem;
+}
+
+.widget {
+  height: 90%;
+}
+
+:host::ng-deep .NgxEditor__Content {
+  min-height: 300px;
+}

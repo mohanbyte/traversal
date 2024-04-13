@@ -9,6 +9,7 @@ import { MaterialModule } from './material.module';
 import { GeneralModule } from './general/general.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthModule } from './auth/auth.module';
+import { DashboardModule } from './dashboard/dashboard.module';
 
 @NgModule({
   declarations: [AppComponent, MapComponent, DashboardComponent],
@@ -18,7 +19,8 @@ import { AuthModule } from './auth/auth.module';
     BrowserAnimationsModule,
     MaterialModule,
     GeneralModule,
-    AuthModule
+    AuthModule,
+    DashboardModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

@@ -1,0 +1,32 @@
+<div class="header-container">
+  <h1 mat-dialog-title>Location : {{ dialogData.data?.title }}</h1>
+  <button class="m-2" mat-icon-button color="warn" [mat-dialog-close]="true">
+    <mat-icon>delete</mat-icon>
+  </button>
+</div>
+<div mat-dialog-content>
+  <div class="row">
+    <div class="col">
+      <h4>Notes</h4>
+      <form [formGroup]="form">
+        <div class="editor">
+          <ngx-editor-menu [editor]="editor" [toolbar]="toolbar">
+          </ngx-editor-menu>
+          <ngx-editor [editor]="editor" formControlName="editorContent">
+          </ngx-editor>
+        </div>
+      </form>
+    </div>
+    <!-- <div class="col-3">
+      <h4>Widgets</h4>
+      <mat-card class="widget">
+        <mat-card-content> </mat-card-content>
+      </mat-card>
+    </div> -->
+  </div>
+</div>
+<div mat-dialog-actions align="end">
+  <button mat-raised-button color="primary" [mat-dialog-close]="false">
+    Close
+  </button>
+</div>

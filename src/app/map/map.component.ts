@@ -8,8 +8,8 @@ import {
   SimpleChanges,
 } from '@angular/core';
 import { geo } from '@here/maps-api-for-javascript';
-import * as  H from '@here/maps-api-for-javascript';
-import { PinDialogComponent } from '../general/dialog/pin-dialog/pin-dialog.component';
+import * as H from '@here/maps-api-for-javascript';
+import { PinDialogComponent } from '../dashboard/pin-dialog/pin-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
 @Component({
@@ -24,7 +24,7 @@ export class MapComponent {
   @Input() public lng = 0;
 
   isMarker: boolean = false;
-  markers: any[]=[];
+  markers: any[] = [];
   @ViewChild('map') mapDiv?: ElementRef;
 
   private timeoutHandle: any;
@@ -33,21 +33,21 @@ export class MapComponent {
 
   constructor(public dialog: MatDialog) {}
 
-  openDialog( data : any , marker?: any) {
+  openDialog(data: any, marker?: any) {
     const dialogRef = this.dialog.open(PinDialogComponent, {
       width: '600px',
-      data: {data}
+      data: { data },
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
-      if(result){
-        this.map.removeObject(marker)
-        const index= this.markers.findIndex((element: any)=>{
-         return element== marker
+      if (result) {
+        this.map.removeObject(marker);
+        const index = this.markers.findIndex((element: any) => {
+          return element == marker;
         });
-        this.markers.splice(index,1)
-        this.hitPoint.emit(this.markers)
+        this.markers.splice(index, 1);
+        this.hitPoint.emit(this.markers);
       }
       this.isMarker = false;
     });
@@ -80,29 +80,28 @@ export class MapComponent {
     let self = this;
     if (!this.map && this.mapDiv) {
       // Instantiate a platform, default layers and a map as usual.
-      const platform = new H['default'].service.Platform({
+      const platform = new (H as any).default.service.Platform({
         apikey: 'vJrfbfUY7UlHCvjAWR9maP3ggf9ES1dGcEBYaDNYAZ4',
       });
-      const defaultLayers :any = platform.createDefaultLayers();
-      console.log(defaultLayers, "layers.full");
+      const defaultLayers: any = platform.createDefaultLayers();
+      console.log(defaultLayers, 'layers.full');
       const layer = {
         raster: defaultLayers?.raster,
         vector: { normal: { map: defaultLayers.raster?.normal.map } },
-
       }; //for the layers in our overview map
 
-      const map :any = new H['default'].Map(
+      const map: any = new (H as any).default.Map(
         this.mapDiv.nativeElement,
         defaultLayers.raster.normal.map, //our overview default map
         {
           pixelRatio: window.devicePixelRatio,
           center: { lat: 21.7679, lng: 78.8718 },
-          politicalview: "IND",
+          politicalview: 'IND',
           zoom: 4,
         }
       );
 
- const ui = H['default'].ui.UI.createDefault(map, defaultLayers);
+      const ui = H['default'].ui.UI.createDefault(map, defaultLayers);
 
       // map.mapScene.enableFeatures([  H['MapFeatureModes'].buildingFootprints : H['MapFeatureModes'].buildingFootprintsAll]);
       // add a resize listener to make sure that the map occupies the whole container
@@ -120,16 +119,18 @@ export class MapComponent {
           ev.currentPointer.viewportX,
           ev.currentPointer.viewportY
         );
-        this.reverseGeocode(map ,
+        this.reverseGeocode(
+          map,
           coordinates!.lat || 0,
           coordinates!.lng || 0,
           platform
-        )
-
+        );
       });
-   // uncomment
-  console.log(H, 'Maps')
-     new H['default'].mapevents.Behavior(new H['default'].mapevents.MapEvents(map));
+      // uncomment
+      console.log(H, 'Maps');
+      new H['default'].mapevents.Behavior(
+        new H['default'].mapevents.MapEvents(map)
+      );
     }
   }
 
@@ -142,38 +143,37 @@ export class MapComponent {
    * @param platform platform object intialised with API Key
    * @param title
    */
-  addMarker(map: any , platform: any ,lat : any , lng : any , result : any){
+  addMarker(map: any, platform: any, lat: any, lng: any, result: any) {
+    const self = this;
+    // Put Marker on the latitude and longitude
+    var icon = new H['default'].map.Icon('../../assets/location-pin.png', {
+      size: { w: 50, h: 50 },
+    });
 
-    const self= this;
-      // Put Marker on the latitude and longitude
-      var icon = new H['default'].map.Icon('../../assets/location-pin.png', {
-        size: { w: 50, h: 50 },
-      });
+    var marker = new H['default'].map.Marker(
+      {
+        lat,
+        lng,
+      },
+      { data: result, icon: icon }
+    );
 
+    marker.addEventListener('tap', function (evt: any) {
+      self.openDialog(result, marker);
+      console.log(marker, 'pin');
 
-      var marker = new H['default'].map.Marker(
-        {
-       lat , lng
-        },
-        { data: result, icon: icon }
-      );
+      self.isMarker = true;
+    });
 
-      marker.addEventListener('tap', function (evt: any) {
-        self.openDialog(result , marker);
-        console.log(marker, 'pin');
+    if (!self.isMarker) {
+      console.log(marker);
 
-        self.isMarker = true;
-      });
-
-      if (!self.isMarker) {
-        console.log(marker);
-
-        map.addObject(marker);
-        self.markers.push(marker);
-        this.hitPoint.emit(this.markers)
-        console.log(map)
-        self.isMarker = false;
-      }
+      map.addObject(marker);
+      self.markers.push(marker);
+      this.hitPoint.emit(this.markers);
+      console.log(map);
+      self.isMarker = false;
+    }
   }
   /**
    *
@@ -183,7 +183,7 @@ export class MapComponent {
    * @param platform platform object intialised with API Key
    * @returns
    */
- reverseGeocode(map: any , lat: any, lng: any, platform?: any) {
+  reverseGeocode(map: any, lat: any, lng: any, platform?: any) {
     var geocoder = platform.getSearchService(),
       reverseGeocodingParameters = {
         at: lat + ',' + lng, // Berlin
@@ -193,7 +193,7 @@ export class MapComponent {
     geocoder.reverseGeocode(
       reverseGeocodingParameters,
       (result: any) => {
-        this.addMarker(map, platform, lat , lng , result.items[0]);
+        this.addMarker(map, platform, lat, lng, result.items[0]);
       },
       this.onError
     );
