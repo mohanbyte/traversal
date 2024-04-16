@@ -7,10 +7,10 @@ import {
   EventEmitter,
   SimpleChanges,
 } from '@angular/core';
-import { geo } from '@here/maps-api-for-javascript';
 import * as H from '@here/maps-api-for-javascript';
 import { PinDialogComponent } from '../dashboard/pin-dialog/pin-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../general/confirm-dialog/confirm-dialog.component';
 
 @Component({
   selector: 'app-map',
@@ -142,7 +142,9 @@ export class MapComponent {
     geocoder.reverseGeocode(
       reverseGeocodingParameters,
       (result: any) => {
-        this.addMarker(lat, lng, result.items[0]);
+        if(result.items.length)
+    this.addMarker(lat, lng, result.items[0]);
+  else this.dialog.open(ConfirmDialogComponent)
       },
       this.onError
     );

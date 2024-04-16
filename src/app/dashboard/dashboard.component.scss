@@ -9,7 +9,10 @@ button.logout {
   flex: 1 1 auto;
 }
 mat-card {
-  border-radius: 10px !important;
+  border-radius: 5px !important;
+
+  border-radius: 5px;
+
 }
 .pinnedCards{
   position: fixed;
@@ -74,4 +77,7 @@ mat-card {
 
 .pin {
   background-color: #7fc1ff;
+}
+.outerCard{
+ padding : 6px !important;
 }

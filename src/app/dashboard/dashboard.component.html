@@ -4,7 +4,7 @@
   <button mat-icon-button color="warn" matTooltip="Logout" (click)="logout()" > <i class="material-symbols-outlined" color="primary">power_settings_new</i></button>
   </mat-toolbar>
 <div class="dash-host"></div>
-<div class="row content m-5">
+<div class="row content m-3">
   <div class="col">
     <mat-card>
       <app-map
@@ -20,7 +20,7 @@
 </div>
 <div class="pinnedCards ">
   <mat-card class="pin-card">
-    <mat-card-content>
+    <mat-card-content class="outerCard">
       <mat-card class="my-2" *ngFor="let index of markers; let i = index" (click)="openPinDialog(index)"
         ><mat-card-content><h4>{{index.data.title}}</h4>
         <p> <b>Area :</b> {{index.data.address.county}}</p></mat-card-content></mat-card
