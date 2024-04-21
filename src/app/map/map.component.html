@@ -1,1 +1,22 @@
+<div class="floating-search">
+  <mat-form-field appearance="fill">
+    <mat-label>Search Places..</mat-label>
+    <input
+      type="text"
+      matInput
+      placeholder="Delhi"
+      [(ngModel)]="searchQuery"
+      (input)="fillSearchOptions($event)"
+    />
+
+    <mat-option
+      *ngFor="let location of searchOptions"
+      [value]="location.address.label"
+      (click)="searchLocation(location.address.label)"
+    >
+      {{ location.address.label }}
+    </mat-option>
+  </mat-form-field>
+</div>
+
 <div #map id="map"></div>
