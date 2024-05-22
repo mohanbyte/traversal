@@ -10,6 +10,7 @@ import {
 import * as H from '@here/maps-api-for-javascript';
 import { PinDialogComponent } from '../dashboard/pin-dialog/pin-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../general/confirm-dialog/confirm-dialog.component';
 
 interface GeocodeResult {
   items: { position: H.geo.Point }[]; // Define the structure of 'items' array
@@ -74,7 +75,6 @@ export class MapComponent {
       this.platform = new H['default'].service.Platform({
         apikey: 'vJrfbfUY7UlHCvjAWR9maP3ggf9ES1dGcEBYaDNYAZ4',
       });
-      console.log(8888, this.platform);
       const defaultLayers: any = this.platform.createDefaultLayers();
       const map = new H['default'].Map(
         this.mapDiv.nativeElement,
@@ -149,7 +149,9 @@ export class MapComponent {
     geocoder.reverseGeocode(
       reverseGeocodingParameters,
       (result: any) => {
+        if(result.items.length)
         this.addMarker(lat, lng, result.items[0]);
+  else this.dialog.open(ConfirmDialogComponent)
       },
       this.onError
     );

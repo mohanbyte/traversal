@@ -10,6 +10,7 @@ import { GeneralModule } from './general/general.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [AppComponent, MapComponent, DashboardComponent],
@@ -20,6 +21,7 @@ import { DashboardModule } from './dashboard/dashboard.module';
     MaterialModule,
     GeneralModule,
     AuthModule,
+    HttpClientModule,
     DashboardModule,
   ],
   providers: [],

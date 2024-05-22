@@ -5,9 +5,7 @@
       type="text"
       matInput
       placeholder="Delhi"
-      [(ngModel)]="searchQuery"
-      (input)="fillSearchOptions($event)"
-    />
+      (input)="fillSearchOptions($event)" />
 
     <mat-option
       *ngFor="let location of searchOptions"
