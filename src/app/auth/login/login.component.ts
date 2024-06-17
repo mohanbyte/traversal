@@ -1,3 +1,4 @@
+import { HttpClient } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -10,14 +11,20 @@ import { Router } from '@angular/router';
 export class LoginComponent {
   hide = true
   loginForm = new FormGroup({
-    username: new FormControl(""),
+    email: new FormControl(""),
     password: new FormControl("")
   })
-  constructor(private router : Router){
+  constructor(private router : Router, private httpclient : HttpClient){
 
 
   }
   login(){
     this.router.navigate(['dashboard'])
+  }
+  signup(){
+    const req = this.loginForm.value
+    this.httpclient.post('http://localhost:3002/api/signup', req).subscribe((res)=>{
+      console.log(res)
+    })
   }
 }

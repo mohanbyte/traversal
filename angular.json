@@ -65,10 +65,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "here-maps:build:production"
+              "buildTarget": "here-maps:build:production"
             },
             "development": {
-              "browserTarget": "here-maps:build:development"
+              "buildTarget": "here-maps:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -76,7 +76,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "here-maps:build"
+            "buildTarget": "here-maps:build"
           }
         },
         "test": {

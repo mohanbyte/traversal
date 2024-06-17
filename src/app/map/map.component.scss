@@ -1,6 +1,18 @@
 #map {
   width: 100%;
-  height: 95vh;
+  height: 89vh;
   overflow-y: hidden !important;
   border-radius: 10px;
+  z-index: 100;
+}
+
+.floating-search {
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  z-index: 1000;
+}
+
+.mat-mdc-form-field-infix {
+  width: 250px !important;
 }

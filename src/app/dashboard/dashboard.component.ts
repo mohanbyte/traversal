@@ -1,5 +1,9 @@
-import { Component } from '@angular/core';
+import { Dialog, DialogRef } from '@angular/cdk/dialog';
+import { Component, ViewChild, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { PinDialogComponent } from './pin-dialog/pin-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MapComponent } from '../map/map.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -11,8 +15,9 @@ export class DashboardComponent {
   zoom: number;
   lat: number;
   lng: number;
-
-  constructor(private router: Router) {
+  markers: any[] = [];
+  @ViewChild('map') MapRef: MapComponent;
+  constructor(private router: Router, private dialog: MatDialog) {
     this.zoom = 5;
     this.lat = 0;
     this.lng = 0;
@@ -30,9 +35,23 @@ export class DashboardComponent {
       this.lng = lookAt.position.lng;
     }
   }
+  openPinDialog(data: any) {
+    const dialogRef = this.dialog.open(PinDialogComponent, {
+      width: '900px',
+      data: { data: data.data },
+    });
 
-  handleMapClick(event: H.map.HitArea) {
+    dialogRef.afterClosed().subscribe((result: any) => {
+      console.log(`Dialog result: ${result}`);
+      const markerToDelete = this.markers.find(
+        (mark) => data.data.id == mark.data.id
+      );
+      if (markerToDelete) this.MapRef.removeMarker(markerToDelete);
+    });
+  }
+  handleMapClick(event: any[]) {
     console.log(999, event);
+    this.markers = event;
   }
   getRange(n: number): number[] {
     return Array.from({ length: n }, (_, i) => i);
