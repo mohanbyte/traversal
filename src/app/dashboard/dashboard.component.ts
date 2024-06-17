@@ -1,8 +1,9 @@
 import { Dialog, DialogRef } from '@angular/cdk/dialog';
-import { Component } from '@angular/core';
+import { Component, ViewChild, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PinDialogComponent } from './pin-dialog/pin-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { MapComponent } from '../map/map.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -15,6 +16,7 @@ export class DashboardComponent {
   lat: number;
   lng: number;
   markers: any[] = [];
+  @ViewChild('map') MapRef: MapComponent;
   constructor(private router: Router, private dialog: MatDialog) {
     this.zoom = 5;
     this.lat = 0;
@@ -41,6 +43,10 @@ export class DashboardComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
+      const markerToDelete = this.markers.find(
+        (mark) => data.data.id == mark.data.id
+      );
+      if (markerToDelete) this.MapRef.removeMarker(markerToDelete);
     });
   }
   handleMapClick(event: any[]) {
