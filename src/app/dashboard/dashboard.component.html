@@ -1,19 +1,40 @@
 <mat-toolbar>
-  <button mat-icon-button > <i class="material-symbols-outlined" color="primary">travel_explore</i></button> <span>Traversal</span>
-  <span class="example-spacer"></span>
-  <button mat-icon-button color="warn" matTooltip="Logout" (click)="logout()" > <i class="material-symbols-outlined" color="primary">power_settings_new</i></button>
-  </mat-toolbar>
+  <button mat-icon-button> <i class="material-symbols-outlined" color="primary">travel_explore</i></button>
+  <span>Traversal</span>
+  <span class="example-spacer" *ngIf="MapRef">
+    <div class="search-container">
+      <mat-icon>search</mat-icon>
+      <input type="text" (input)="MapRef.fillSearchOptions($event)" placeholder="Search">
+    </div>
+    <!-- <mat-form-field appearance="fill">
+      <mat-label>Search Places..</mat-label>
+
+      <input type="text" matInput (input)="MapRef.fillSearchOptions($event)" />
+      <mat-option *ngFor=" let location of MapRef.searchOptions" [value]="location.address.label"
+        (click)="MapRef.searchLocation(location.address.label)">
+        {{ location.address.label }}
+      </mat-option>
+
+    </mat-form-field> -->
+    <div class="cards">
+
+      <!-- <mat-menu #menu="matMenu">
+    <mat-card *ngFor=" let location of MapRef.searchOptions" (click)="MapRef.searchLocation(location.address.label)">
+      <button mat-menu-item>{{ location.address.label }}</button>
+    </mat-card>
+  </mat-menu> -->
+    </div>
+
+  </span>
+  <button mat-icon-button color="warn" matTooltip="Logout" (click)="logout()"> <i class="material-symbols-outlined"
+      color="primary">power_settings_new</i></button>
+</mat-toolbar>
 <div class="dash-host"></div>
 <div class="row content m-3">
   <div class="col">
     <mat-card>
-      <app-map
-        [zoom]="zoom"
-        [lat]="lat"
-        [lng]="lng"
-        (notify)="handleMapChange($event)"
-        (hitPoint)="handleMapClick($event)"
-      ></app-map>
+      <app-map #mapComponent [zoom]="zoom" [lat]="lat" [lng]="lng" (notify)="handleMapChange($event)"
+        (hitPoint)="handleMapClick($event)"></app-map>
     </mat-card>
   </div>
 
@@ -21,14 +42,15 @@
 <div class="pinnedCards ">
   <mat-card class="pin-card">
     <mat-card-content class="outerCard">
-      <mat-card class="my-2" *ngFor="let index of markers; let i = index" (click)="openPinDialog(index)"
-        ><mat-card-content><h4>{{index.data.title}}</h4>
-        <p> <b>Area :</b> {{index.data.address.county}}</p></mat-card-content></mat-card
-      >
-      <mat-card class="my-2" *ngIf="!markers.length"
-        ><mat-card-content><h4>No Pins Added!</h4>
-        <p> Click on map to add pins</p></mat-card-content></mat-card
-      >
+      <mat-card class="my-2" *ngFor="let index of markers; let i = index"
+        (click)="openPinDialog(index)"><mat-card-content>
+          <h4>{{index.data.title}}</h4>
+          <p> <b>Area :</b> {{index.data.address.county}}</p>
+        </mat-card-content></mat-card>
+      <mat-card class="my-2" *ngIf="!markers.length"><mat-card-content>
+          <h4>No Pins Added!</h4>
+          <p> Click on map to add pins</p>
+        </mat-card-content></mat-card>
     </mat-card-content>
   </mat-card>
 </div>

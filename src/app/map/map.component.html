@@ -1,20 +1,13 @@
-<div class="floating-search">
-  <mat-form-field appearance="fill">
+<!-- <div class="floating-search">
+  <mat-form-field appearance="outline">
     <mat-label>Search Places..</mat-label>
-    <input
-      type="text"
-      matInput
-      placeholder="Delhi"
-      (input)="fillSearchOptions($event)" />
+    <input type="text" matInput placeholder="Delhi" (input)="fillSearchOptions($event)" />
 
-    <mat-option
-      *ngFor="let location of searchOptions"
-      [value]="location.address.label"
-      (click)="searchLocation(location.address.label)"
-    >
+    <mat-option *ngFor="let location of searchOptions" [value]="location.address.label"
+      (click)="searchLocation(location.address.label)">
       {{ location.address.label }}
     </mat-option>
   </mat-form-field>
-</div>
+</div> -->
 
 <div #map id="map"></div>

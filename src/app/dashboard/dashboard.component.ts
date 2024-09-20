@@ -1,4 +1,3 @@
-import { Dialog, DialogRef } from '@angular/cdk/dialog';
 import { Component, ViewChild, viewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { PinDialogComponent } from './pin-dialog/pin-dialog.component';
@@ -16,7 +15,8 @@ export class DashboardComponent {
   lat: number;
   lng: number;
   markers: any[] = [];
-  @ViewChild('map') MapRef: MapComponent;
+  @ViewChild('mapComponent') MapRef: MapComponent;
+  searchOptions: any;
   constructor(private router: Router, private dialog: MatDialog) {
     this.zoom = 5;
     this.lat = 0;

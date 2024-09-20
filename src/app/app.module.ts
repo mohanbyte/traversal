@@ -11,6 +11,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HttpClientModule } from '@angular/common/http';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @NgModule({
   declarations: [AppComponent, MapComponent, DashboardComponent],
@@ -24,7 +25,13 @@ import { HttpClientModule } from '@angular/common/http';
     HttpClientModule,
     DashboardModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: MAT_FORM_FIELD_DEFAULT_OPTIONS,
+      useValue: { subscriptSizing: 'dynamic' },
+    },
+  ],
+
   bootstrap: [AppComponent],
 })
 export class AppModule {}

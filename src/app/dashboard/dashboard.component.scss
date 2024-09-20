@@ -5,21 +5,54 @@ button.logout {
   z-index: 10;
   font-size: 12px;
 }
+.search-container {
+  padding: 8px 16px;
+  background-color: #e8e8f2;
+  display: flex;
+  align-items: center;
+  border-radius: 8px;
+  mat-icon {
+    margin-right: 12px;
+  }
+  input {
+    outline: none;
+    border: none;
+    background: none;
+    font-weight: 400;
+  }
+}
+
 .example-spacer {
   flex: 1 1 auto;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  .mat-mdc-form-field {
+    flex-direction: row;
+  }
+}
+// //Work Around for Mat hint error
+// :host ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+//   display: none !important;
+// }
+// .mat-mdc-form-field-infix {
+//   width: 250px !important;
+// }
+.cards {
+  position: relative;
+  z-index: 999;
 }
 mat-card {
   border-radius: 5px !important;
 
   border-radius: 5px;
-
 }
-.pinnedCards{
+.pinnedCards {
   position: fixed;
   top: 11%;
   right: 4%;
   z-index: 2;
-  width:  350px;
+  width: 350px;
 }
 
 .dash-host {
@@ -78,6 +111,6 @@ mat-card {
 .pin {
   background-color: #7fc1ff;
 }
-.outerCard{
- padding : 6px !important;
+.outerCard {
+  padding: 6px !important;
 }
