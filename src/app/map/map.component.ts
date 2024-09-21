@@ -29,6 +29,7 @@ export class MapComponent {
   @Input() public lng = 0;
   isMarker: boolean = false;
   markers: any[] = [];
+  locallyStoredMarkers = [];
   @ViewChild('map') mapDiv?: ElementRef;
   private timeoutHandle: any;
   @Output() notify = new EventEmitter();
@@ -47,7 +48,6 @@ export class MapComponent {
     dialogRef.afterClosed().subscribe((result: any) => {
       if (result) {
         this.removeMarker(marker);
-        this.hitPoint.emit(this.markers);
       }
       this.isMarker = false;
     });
@@ -92,6 +92,15 @@ export class MapComponent {
       window.addEventListener('resize', () => map.getViewPort().resize());
 
       this.map = map;
+      const addedMarkers = JSON.parse(window.localStorage.getItem('markers'));
+      if (addedMarkers && addedMarkers.length) {
+        for (let mark of addedMarkers) {
+          let [lat, lng, result] = mark;
+          this.addMarker(lat, lng, result);
+        }
+        // this.markers = addedMarkers;
+        this.locallyStoredMarkers = addedMarkers;
+      }
       map.addEventListener('mapviewchange', (ev: H.map.ChangeEvent) => {
         this.notify.emit(ev);
       });
@@ -113,16 +122,21 @@ export class MapComponent {
     const icon = new H['default'].map.Icon('../../assets/location-pin.png', {
       size: { w: 50, h: 50 },
     });
-
+    this.locallyStoredMarkers.push([lat, lng, result]);
+    window.localStorage.setItem(
+      'markers',
+      JSON.stringify(this.locallyStoredMarkers)
+    );
     const marker = new H['default'].map.Marker(
       { lat, lng },
       { data: result, icon }
     );
 
     const self = this;
-    marker.addEventListener('tap', function (evt: any) {
+    marker.addEventListener('tap', function (evt: Event) {
+      evt.stopPropagation();
       self.openDialog(result, marker);
-      self.isMarker = true;
+      //self.isMarker = true;
     });
 
     if (!this.isMarker) {
@@ -136,7 +150,16 @@ export class MapComponent {
   removeMarker(marker: any) {
     this.map.removeObject(marker);
     const index = this.markers.findIndex((element: any) => element === marker);
+
+    console.log(this.markers, 'removeMarkerbefore');
+    this.locallyStoredMarkers.splice(index, 1);
+    window.localStorage.setItem(
+      'markers',
+      JSON.stringify(this.locallyStoredMarkers)
+    );
     this.markers.splice(index, 1);
+    console.log(this.markers, 'removeMarker');
+    this.hitPoint.emit(this.markers);
   }
 
   reverseGeocode(lat: any, lng: any, platform: any) {
@@ -149,9 +172,8 @@ export class MapComponent {
     geocoder.reverseGeocode(
       reverseGeocodingParameters,
       (result: any) => {
-        if(result.items.length)
-        this.addMarker(lat, lng, result.items[0]);
-  else this.dialog.open(ConfirmDialogComponent)
+        if (result.items.length) this.addMarker(lat, lng, result.items[0]);
+        else this.dialog.open(ConfirmDialogComponent);
       },
       this.onError
     );
