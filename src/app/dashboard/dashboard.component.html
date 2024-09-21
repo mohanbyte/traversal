@@ -1,48 +1,51 @@
 <mat-toolbar>
-  <button mat-icon-button>
-    <i class="material-symbols-outlined" color="primary">travel_explore</i>
-  </button>
+  <button mat-icon-button> <i class="material-symbols-outlined" color="primary">travel_explore</i></button>
   <span>Traversal</span>
-  <span class="example-spacer"></span>
-  <!-- <button mat-icon-button color="warn" matTooltip="Logout" (click)="logout()">
-    <i class="material-symbols-outlined" color="primary">logout</i>
-  </button> -->
+  <span class="example-spacer" *ngIf="MapRef">
+    <div class="search-container" cdkOverlayOrigin #overlayPosition="cdkOverlayOrigin">
+      <mat-icon>search</mat-icon>
+      <input type="text" #search (input)="MapRef.fillSearchOptions($event)" placeholder="Search"
+        (click)="overlayOpen=true">
+    </div>
+    <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="overlayPosition"
+      [cdkConnectedOverlayOpen]="overlayOpen" (overlayOutsideClick)="overlayOpen=false">
+      <mat-action-list *ngIf="MapRef.searchOptions.length>0">
+        <button mat-list-item *ngFor="let location of MapRef.searchOptions"
+          (click)="MapRef.searchLocation(location.address.label) ; search.value=location.address.label  ">{{location.address.label}}</button>
+      </mat-action-list>
+    </ng-template>
+
+  </span>
+  <button mat-flat-button cdkOverlayOrigin #pinOverlay="cdkOverlayOrigin" (click)="togglePinnedOverlay()"> View
+    Added
+    Locations </button>
+  <button mat-icon-button color="warn" matTooltip="Logout" (click)="logout()"> <i class="material-symbols-outlined"
+      color="primary">power_settings_new</i></button>
 </mat-toolbar>
 <div class="dash-host"></div>
 <div class="row content m-3">
   <div class="col">
     <mat-card>
-      <app-map
-        #map
-        [zoom]="zoom"
-        [lat]="lat"
-        [lng]="lng"
-        (notify)="handleMapChange($event)"
-        (hitPoint)="handleMapClick($event)"
-      ></app-map>
+      <app-map #mapComponent [zoom]="zoom" [lat]="lat" [lng]="lng" (notify)="handleMapChange($event)"
+        (hitPoint)="handleMapClick($event)"></app-map>
     </mat-card>
   </div>
 </div>
-<div class="pinnedCards">
-  <mat-card class="pin-card">
-    <mat-card-content class="outerCard">
-      <mat-card
-        class="my-2"
-        *ngFor="let mark of markers; let i = index"
-        (click)="openPinDialog(mark)"
-        ><mat-card-content
-          ><h4>{{ mark?.data?.title }}</h4>
-          <p>
-            <b>Area :</b> {{ mark?.data?.address?.county }}
-          </p></mat-card-content
-        ></mat-card
-      >
-      <mat-card class="my-2" *ngIf="!markers?.length"
-        ><mat-card-content
-          ><h4>No Pins Added!</h4>
-          <p>Click on map to add pins</p></mat-card-content
-        ></mat-card
-      >
-    </mat-card-content>
-  </mat-card>
-</div>
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="pinOverlay" [cdkConnectedOverlayOpen]="pinOverlayOpen"
+  [cdkConnectedOverlayHasBackdrop]="true" (overlayOutsideClick)="pinOverlayOpen=false">
+  <div class="pinnedCards ">
+    <mat-card class="pin-card">
+      <mat-card-content class="outerCard">
+        <mat-card class="my-2" *ngFor="let index of markers; let i = index"
+          (click)="openPinDialog(index)"><mat-card-content>
+            <h4>{{index.data.title}}</h4>
+            <p> <b>Area :</b> {{index.data.address.county}}</p>
+          </mat-card-content></mat-card>
+        <mat-card class="my-2" *ngIf="!markers.length"><mat-card-content>
+            <h4>No Pins Added!</h4>
+            <p> Click on map to add pins</p>
+          </mat-card-content></mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-template>
