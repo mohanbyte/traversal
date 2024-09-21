@@ -15,6 +15,8 @@ export class DashboardComponent {
   lat: number;
   lng: number;
   markers: any[] = [];
+  overlayOpen = false;
+  pinOverlayOpen = false;
   @ViewChild('mapComponent') MapRef: MapComponent;
   searchOptions: any;
   constructor(private router: Router, private dialog: MatDialog) {

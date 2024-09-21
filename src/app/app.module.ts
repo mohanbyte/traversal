@@ -12,6 +12,7 @@ import { AuthModule } from './auth/auth.module';
 import { DashboardModule } from './dashboard/dashboard.module';
 import { HttpClientModule } from '@angular/common/http';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { OverlayModule } from '@angular/cdk/overlay';
 
 @NgModule({
   declarations: [AppComponent, MapComponent, DashboardComponent],
@@ -24,6 +25,7 @@ import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
     AuthModule,
     HttpClientModule,
     DashboardModule,
+    OverlayModule
   ],
   providers: [
     {

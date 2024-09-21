@@ -21,7 +21,10 @@ button.logout {
     font-weight: 400;
   }
 }
-
+:ng-deep .mat-mdc-list-base {
+  width: 230px;
+  background-color: #e8e8f2;
+}
 .example-spacer {
   flex: 1 1 auto;
   justify-content: center;

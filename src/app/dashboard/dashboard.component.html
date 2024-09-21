@@ -2,28 +2,18 @@
   <button mat-icon-button> <i class="material-symbols-outlined" color="primary">travel_explore</i></button>
   <span>Traversal</span>
   <span class="example-spacer" *ngIf="MapRef">
-    <div class="search-container">
+    <div class="search-container" cdkOverlayOrigin #overlayPosition="cdkOverlayOrigin">
       <mat-icon>search</mat-icon>
-      <input type="text" (input)="MapRef.fillSearchOptions($event)" placeholder="Search">
+      <input type="text" #search (input)="MapRef.fillSearchOptions($event)" placeholder="Search"
+        (click)="overlayOpen=true">
     </div>
-    <!-- <mat-form-field appearance="fill">
-      <mat-label>Search Places..</mat-label>
-
-      <input type="text" matInput (input)="MapRef.fillSearchOptions($event)" />
-      <mat-option *ngFor=" let location of MapRef.searchOptions" [value]="location.address.label"
-        (click)="MapRef.searchLocation(location.address.label)">
-        {{ location.address.label }}
-      </mat-option>
-
-    </mat-form-field> -->
-    <div class="cards">
-
-      <!-- <mat-menu #menu="matMenu">
-    <mat-card *ngFor=" let location of MapRef.searchOptions" (click)="MapRef.searchLocation(location.address.label)">
-      <button mat-menu-item>{{ location.address.label }}</button>
-    </mat-card>
-  </mat-menu> -->
-    </div>
+    <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="overlayPosition"
+      [cdkConnectedOverlayOpen]="overlayOpen" (overlayOutsideClick)="overlayOpen=false">
+      <mat-action-list *ngIf="MapRef.searchOptions.length>0">
+        <button mat-list-item *ngFor="let location of MapRef.searchOptions"
+          (click)="MapRef.searchLocation(location.address.label) ; search.value=location.address.label  ">{{location.address.label}}</button>
+      </mat-action-list>
+    </ng-template>
 
   </span>
   <button mat-icon-button color="warn" matTooltip="Logout" (click)="logout()"> <i class="material-symbols-outlined"
