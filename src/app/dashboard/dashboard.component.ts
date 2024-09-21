@@ -58,4 +58,7 @@ export class DashboardComponent {
   getRange(n: number): number[] {
     return Array.from({ length: n }, (_, i) => i);
   }
+  togglePinnedOverlay() {
+    this.pinOverlayOpen = !this.pinOverlayOpen;
+  }
 }

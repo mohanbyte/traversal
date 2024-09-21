@@ -16,6 +16,9 @@
     </ng-template>
 
   </span>
+  <button mat-flat-button cdkOverlayOrigin #pinOverlay="cdkOverlayOrigin" (click)="togglePinnedOverlay()"> View
+    Added
+    Locations </button>
   <button mat-icon-button color="warn" matTooltip="Logout" (click)="logout()"> <i class="material-symbols-outlined"
       color="primary">power_settings_new</i></button>
 </mat-toolbar>
@@ -29,18 +32,21 @@
   </div>
 
 </div>
-<div class="pinnedCards ">
-  <mat-card class="pin-card">
-    <mat-card-content class="outerCard">
-      <mat-card class="my-2" *ngFor="let index of markers; let i = index"
-        (click)="openPinDialog(index)"><mat-card-content>
-          <h4>{{index.data.title}}</h4>
-          <p> <b>Area :</b> {{index.data.address.county}}</p>
-        </mat-card-content></mat-card>
-      <mat-card class="my-2" *ngIf="!markers.length"><mat-card-content>
-          <h4>No Pins Added!</h4>
-          <p> Click on map to add pins</p>
-        </mat-card-content></mat-card>
-    </mat-card-content>
-  </mat-card>
-</div>
+<ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="pinOverlay" [cdkConnectedOverlayOpen]="pinOverlayOpen"
+  [cdkConnectedOverlayHasBackdrop]="true" (overlayOutsideClick)="pinOverlayOpen=false">
+  <div class="pinnedCards ">
+    <mat-card class="pin-card">
+      <mat-card-content class="outerCard">
+        <mat-card class="my-2" *ngFor="let index of markers; let i = index"
+          (click)="openPinDialog(index)"><mat-card-content>
+            <h4>{{index.data.title}}</h4>
+            <p> <b>Area :</b> {{index.data.address.county}}</p>
+          </mat-card-content></mat-card>
+        <mat-card class="my-2" *ngIf="!markers.length"><mat-card-content>
+            <h4>No Pins Added!</h4>
+            <p> Click on map to add pins</p>
+          </mat-card-content></mat-card>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</ng-template>
