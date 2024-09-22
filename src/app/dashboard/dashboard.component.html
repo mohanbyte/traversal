@@ -18,7 +18,7 @@
       (click)="togglePinnedOverlay()">
       <mat-icon> person_pin</mat-icon></button>
     <ng-template cdkConnectedOverlay [cdkConnectedOverlayOrigin]="pinOverlay" [cdkConnectedOverlayOpen]="pinOverlayOpen"
-      [cdkConnectedOverlayHasBackdrop]="true" (overlayOutsideClick)="pinOverlayOpen=false">
+      (overlayOutsideClick)="pinOverlayOpen=false">
       <div class="pinnedCards ">
         <mat-card class="pin-card">
           <mat-card-content class="outerCard">

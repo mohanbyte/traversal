@@ -45,10 +45,12 @@ export class DashboardComponent {
 
     dialogRef.afterClosed().subscribe((result: any) => {
       console.log(`Dialog result: ${result}`);
-      const markerToDelete = this.markers.find(
-        (mark) => data.data.id == mark.data.id
-      );
-      if (markerToDelete) this.MapRef.removeMarker(markerToDelete);
+      if (result) {
+        const markerToDelete = this.markers.find(
+          (mark) => data.data.id == mark.data.id
+        );
+        if (markerToDelete) this.MapRef.removeMarker(markerToDelete);
+      }
     });
   }
   handleMapClick(event: any[]) {

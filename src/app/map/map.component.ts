@@ -182,26 +182,30 @@ export class MapComponent {
   onError(error: any) {
     alert("Can't reach the remote server");
   }
-
+  searchTimer;
   fillSearchOptions(event) {
     if (event.target.value === '') {
       return;
     }
-
-    const service = this.platform.getSearchService();
-    service.geocode(
-      {
-        q: event.target.value,
-      },
-      (result: GeocodeResult) => {
-        // Clear previous map objects
-        this.map.removeObjects(this.map.getObjects());
-        this.searchOptions = result.items;
-      },
-      (error) => {
-        console.error('Error searching for location:', error);
-      }
-    );
+    if (this.searchTimer) {
+      clearTimeout(this.searchTimer);
+    }
+    this.searchTimer = setTimeout(() => {
+      const service = this.platform.getSearchService();
+      service.geocode(
+        {
+          q: event.target.value,
+        },
+        (result: GeocodeResult) => {
+          // Clear previous map objects
+          this.map.removeObjects(this.map.getObjects());
+          this.searchOptions = result.items;
+        },
+        (error) => {
+          console.error('Error searching for location:', error);
+        }
+      );
+    }, 600);
   }
 
   searchLocation(event): void {
