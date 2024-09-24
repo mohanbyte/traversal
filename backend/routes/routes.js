@@ -1,24 +1,62 @@
 const express = require("express");
 const router = express.Router();
+const User = require("../models/users");
+const bcrypt = require("bcrypt");
 let users = [];
-router.post("/signup", (req, res, err) => {
+router.post("/api/signup", (req, res, err) => {
   console.log(req.body);
-  if (req.body["user"] && req.body["password"]) {
-    users.push({ user: req.body.user, password: req.body.password });
-    res.status(200).send({
-      success: true,
+  bcrypt.hash(req.body?.password, 10).then((hash) => {
+    const user = new User({
+      email: req.body?.email,
+      password: hash,
     });
-  } else
-    res.status(200).send({
-      success: false,
-    });
+    user
+      .save()
+      .then((result) => {
+        res.status(201).json({
+          success: true,
+          message: "User created successfully!",
+        });
+      })
+      .catch((error) => {
+        res.status(200).json({
+          success: false,
+          message: "User creation failed!",
+        });
+      });
+  });
 });
 
-router.get("/users", (req, res, err) => {
-  res.status(200).send({
-    success: true,
-    users,
-  });
+router.put("/api/login", (req, res, err) => {
+  User.findOne({ email: req.body.email })
+    .then((user) => {
+      console.log(user);
+      if (!user) {
+        return res.status(401).json({
+          success: false,
+          message: "No user found!",
+        });
+      } else {
+        const clientPassword = req.body.password;
+        return bcrypt.compare(clientPassword, user.password);
+      }
+    })
+    .then((password) => {
+      if (password) {
+        res.status(200).json({
+          success: true,
+          message: "User Logged in successfully!",
+        });
+      } else
+        res.status(400).json({
+          success: true,
+          message: "Incorrect password",
+        });
+    });
+  // res.status(200).send({
+  //   success: true,
+  //   users,
+  // });
 });
 
 module.exports = router;
