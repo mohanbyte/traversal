@@ -1,6 +1,6 @@
 <div class="header-container">
   <h1 mat-dialog-title>Location : {{ dialogData.data?.title }}</h1>
-  <button class="m-2" mat-icon-button color="warn" [mat-dialog-close]="true">
+  <button class="m-2" mat-icon-button color="warn" (click)="delete()">
     <i class="material-symbols-outlined">delete</i>
   </button>
 </div>
@@ -17,16 +17,10 @@
         </div>
       </form>
     </div>
-    <!-- <div class="col-3">
-      <h4>Widgets</h4>
-      <mat-card class="widget">
-        <mat-card-content> </mat-card-content>
-      </mat-card>
-    </div> -->
   </div>
 </div>
 <div mat-dialog-actions align="end">
-  <button mat-raised-button color="primary" [mat-dialog-close]="false">
-    Close
-  </button>
+  <button mat-flat-button mat-dialog-close>Close</button>
+
+  <button mat-flat-button color="success" (click)="savePinInfo()">Save</button>
 </div>

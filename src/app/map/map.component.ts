@@ -12,8 +12,9 @@ import { PinDialogComponent } from '../dashboard/pin-dialog/pin-dialog.component
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../general/confirm-dialog/confirm-dialog.component';
 
+// Define the structure for geocoding results
 interface GeocodeResult {
-  items: { position: H.geo.Point }[]; // Define the structure of 'items' array
+  items: { position: H.geo.Point }[];
 }
 
 @Component({
@@ -39,6 +40,7 @@ export class MapComponent {
 
   constructor(public dialog: MatDialog) {}
 
+  // Open a dialog for pin information
   openDialog(data: any, marker?: any) {
     const dialogRef = this.dialog.open(PinDialogComponent, {
       width: '750px',
@@ -46,13 +48,37 @@ export class MapComponent {
     });
 
     dialogRef.afterClosed().subscribe((result: any) => {
-      if (result) {
+      if (result?.delete) {
         this.removeMarker(marker);
+      }
+
+      if (result?.info) {
+        console.log('Pin info saved:', result.info);
+        const index = this.markers.findIndex(
+          (element: any) => element === marker
+        );
+
+        this.locallyStoredMarkers[index][2]['note'] = result.info;
+
+        // Store updated markers in local storage
+        window.localStorage.setItem(
+          'markers',
+          JSON.stringify(this.locallyStoredMarkers)
+        );
       }
       this.isMarker = false;
     });
   }
 
+  makeSerializable(obj) {
+    return JSON.parse(
+      JSON.stringify(obj, (key, value) =>
+        typeof value === 'function' ? value.toString() : value
+      )
+    );
+  }
+
+  // Handle changes to input properties
   ngOnChanges(changes: SimpleChanges) {
     clearTimeout(this.timeoutHandle);
     this.timeoutHandle = setTimeout(() => {
@@ -70,12 +96,16 @@ export class MapComponent {
     }, 100);
   }
 
+  // Initialize the map after the view is initialized
   ngAfterViewInit(): void {
     if (!this.map && this.mapDiv) {
+      // Initialize HERE Maps platform
       this.platform = new H['default'].service.Platform({
         apikey: 'vJrfbfUY7UlHCvjAWR9maP3ggf9ES1dGcEBYaDNYAZ4',
       });
       const defaultLayers: any = this.platform.createDefaultLayers();
+
+      // Create the map
       const map = new H['default'].Map(
         this.mapDiv.nativeElement,
         defaultLayers.raster.normal.map,
@@ -89,18 +119,23 @@ export class MapComponent {
 
       const ui = H['default'].ui.UI.createDefault(map, defaultLayers);
 
+      // Handle window resize
       window.addEventListener('resize', () => map.getViewPort().resize());
 
       this.map = map;
+
+      // Load markers from local storage
       const addedMarkers = JSON.parse(window.localStorage.getItem('markers'));
+      console.log(9999, addedMarkers);
       if (addedMarkers && addedMarkers.length) {
         for (let mark of addedMarkers) {
           let [lat, lng, result] = mark;
           this.addMarker(lat, lng, result);
         }
-        // this.markers = addedMarkers;
         this.locallyStoredMarkers = addedMarkers;
       }
+
+      // Add event listeners for map interactions
       map.addEventListener('mapviewchange', (ev: H.map.ChangeEvent) => {
         this.notify.emit(ev);
       });
@@ -112,12 +147,14 @@ export class MapComponent {
         this.reverseGeocode(coordinates.lat, coordinates.lng, this.platform);
       });
 
+      // Enable map behavior (pan, zoom, etc.)
       new H['default'].mapevents.Behavior(
         new H['default'].mapevents.MapEvents(map)
       );
     }
   }
 
+  // Add a marker to the map
   addMarker(lat: any, lng: any, result: any) {
     const icon = new H['default'].map.Icon('../../assets/location-pin.png', {
       size: { w: 50, h: 50 },
@@ -136,7 +173,6 @@ export class MapComponent {
     marker.addEventListener('tap', function (evt: Event) {
       evt.stopPropagation();
       self.openDialog(result, marker);
-      //self.isMarker = true;
     });
 
     if (!this.isMarker) {
@@ -147,6 +183,7 @@ export class MapComponent {
     }
   }
 
+  // Remove a marker from the map
   removeMarker(marker: any) {
     this.map.removeObject(marker);
     const index = this.markers.findIndex((element: any) => element === marker);
@@ -162,6 +199,7 @@ export class MapComponent {
     this.hitPoint.emit(this.markers);
   }
 
+  // Perform reverse geocoding
   reverseGeocode(lat: any, lng: any, platform: any) {
     const geocoder = platform.getSearchService();
     const reverseGeocodingParameters = {
@@ -179,10 +217,13 @@ export class MapComponent {
     );
   }
 
+  // Handle geocoding errors
   onError(error: any) {
     alert("Can't reach the remote server");
   }
+
   searchTimer;
+  // Populate search options as user types
   fillSearchOptions(event) {
     if (event.target.value === '') {
       return;
@@ -208,6 +249,7 @@ export class MapComponent {
     }, 600);
   }
 
+  // Perform location search
   searchLocation(event): void {
     if (event === '') {
       return;

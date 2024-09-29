@@ -51,7 +51,12 @@ export class PinDialogComponent implements OnInit, OnDestroy {
     this.editor = new Editor();
   }
   ngOnInit(): void {
-    this.editor = new Editor();
+    if (this.dialogData.data.note) {
+      this.form.get('editorContent').patchValue(this.dialogData.data.note);
+      console.log(this.dialogData.data.note);
+    } else {
+      this.editor = new Editor();
+    }
   }
 
   ngOnDestroy(): void {
@@ -65,11 +70,12 @@ export class PinDialogComponent implements OnInit, OnDestroy {
     ),
   });
 
-  get doc() {
-    return this.form.get('editorContent');
-  }
+  // * Save Pin Info
 
-  getDoc() {
-    console.log(this.doc);
+  delete() {
+    this.dialogRef.close({ delete: true });
+  }
+  savePinInfo() {
+    this.dialogRef.close({ info: this.form.get('editorContent').value });
   }
 }
