@@ -1,4 +1,5 @@
 # Traversal Web Application
+![image](https://github.com/user-attachments/assets/b053d9ff-daa5-4b4a-9da3-3c56e8842d3b)
 
 
 ## Overview
@@ -16,8 +17,7 @@ Traversal is a web application designed to provide users with a dashboard interf
 ## Technologies Used
 - **Frontend:** HTML, CSS, JavaScript, Angular
 - **Backend:** Node.js, Express.js
-- **Database:** Firebase Firestore
-- **Authentication:** Firebase Authentication
+- **Database:** MongoDB
 
 ## Installation
 To run this application locally, follow these steps:
