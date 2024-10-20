@@ -45,14 +45,15 @@ app.use(cors());
 app.use(routes);
 
 // Setting the port for the application
-app.set("port", 3000);
 
+const port = process.env.PORT || 3000;
 // Starting the HTTP server on the defined port
-server.listen(3000);
+app.set("port", port);
+server.listen(port);
 
 // Event listener for the 'listening' event
 server.on("listening", () => {
-  console.log(`Server is listening on port ${app.get("port")}`);
+  console.log(`Server is listening on port ${app.get("port")} ${port}`);
 });
 
 // Event listener for the 'error' event
