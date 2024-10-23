@@ -1,55 +1,40 @@
-
-.mdc-card__actions{
-  justify-content: space-evenly;
-}
-.main-content{
+.container {
   display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 100%;
-  background-image: url(../../../assets/background.jpg);
-}
-.mt-4{
-  margin-top: 100px
-}
-.mat-mdc-form-field {
+  margin: 0;
+  padding: 0;
+  height: 100vh;
+  min-width: 100vw; // Ensure the container takes the full width
+  box-sizing: border-box; // Include padding and border in the element's total width and height
 
-  min-width: 300px
+  .right-container {
+    display: flex;
+    flex-direction: column;
+    flex: 1; // Take the remaining flex space
+    justify-content: center;
+    align-items: center;
+    height: 100%; // Ensure the right container takes the full height
+    cursor: pointer;
+  }
+  .left-container {
+    display: flex;
+    flex-direction: column;
+    width: 70vw;
+    justify-content: center;
+    align-items: center;
+    background-image: url(../../../assets/background.jpg);
+    background-size: cover;
+    background-repeat: no-repeat;
+    height: 100%; // Ensure the left container takes the full height
+    cursor: url(../../../assets/location-pin.png), auto;
+  }
 }
-//centering formfields
-.mat-mdc-card-content{
-  text-align: center;
+.actions {
+  margin: 2rem;
 }
-.mat-mdc-card-title{
-
-  text-align: center;
-  font-size: large;
-  padding: 20px;
+mat-form-field {
+  width: 300px;
 }
-.mat-mdc-card {
-  box-shadow: 12px 12px 14px 0px rgba(0, 0, 0, 0.2), 0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 1px 3px 0px rgba(0, 0, 0, 0.12);
-  --mdc-elevated-card-container-color: #fff;
-  padding: 20px;
-  width: 50%;
-}
-.container{
-    margin: 0;
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    -ms-transform: translate(-50%, -50%);
-    transform: translate(-50%, -50%);
-    /* top: 50%; */
-    /* left: 21%; */
-}
-.d-flex{
+.col-12 {
   display: flex;
   justify-content: center;
 }
-// .mdc-card{
-//   background: #000000;
-//   /* color: white; */
-//   border-radius: 17px;
-// }
-
-
