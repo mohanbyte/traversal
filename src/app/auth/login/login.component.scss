@@ -24,9 +24,10 @@
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%; // Ensure the left container takes the full height
-    cursor: url(../../../assets/plane.png) !important;
+    cursor: url("../../../assets/location-pin.png") 16 16, auto !important;
   }
 }
+
 .actions {
   margin: 2rem;
 }

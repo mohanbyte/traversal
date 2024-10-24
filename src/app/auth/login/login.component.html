@@ -1,6 +1,7 @@
 <div class="container">
-  <div class="left-container"></div>
+  <div class="left-container d-none d-md-block"></div>
   <div class="right-container">
+    <h1 class="col-12 mb-4 title">Login</h1>
     <form [formGroup]="loginForm">
       <div class="row g-4">
         <div class="col-12">
@@ -37,10 +38,10 @@
       </div>
     </form>
     <div class="actions row">
-      <div class="col-12 col-md-6">
+      <div class="col-6">
         <button mat-raised-button (click)="signup()">Signup</button>
       </div>
-      <div class="col-12 col-md-6">
+      <div class="col-6">
         <button mat-raised-button color="primary" (click)="login()">
           Login
         </button>
