@@ -13,7 +13,6 @@
     justify-content: center;
     align-items: center;
     height: 100%; // Ensure the right container takes the full height
-    cursor: pointer;
   }
   .left-container {
     display: flex;
@@ -25,9 +24,10 @@
     background-size: cover;
     background-repeat: no-repeat;
     height: 100%; // Ensure the left container takes the full height
-    cursor: url(../../../assets/location-pin.png), auto;
+    cursor: url("../../../assets/location-pin.png") 16 16, auto !important;
   }
 }
+
 .actions {
   margin: 2rem;
 }
@@ -37,4 +37,5 @@ mat-form-field {
 .col-12 {
   display: flex;
   justify-content: center;
+  cursor: pointer;
 }
