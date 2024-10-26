@@ -26,11 +26,9 @@ router.post("/api/signup", (req, res, err) => {
       });
   });
 });
-
 router.put("/api/login", (req, res, err) => {
   User.findOne({ email: req.body.email })
     .then((user) => {
-      console.log(user);
       if (!user) {
         return res.status(401).json({
           success: false,
@@ -38,20 +36,26 @@ router.put("/api/login", (req, res, err) => {
         });
       } else {
         const clientPassword = req.body.password;
-        return bcrypt.compare(clientPassword, user.password);
+        return bcrypt.compare(clientPassword, user.password).then((isMatch) => {
+          if (isMatch) {
+            res.status(200).json({
+              success: true,
+              message: "User Logged in successfully!",
+            });
+          } else {
+            res.status(400).json({
+              success: false,
+              message: "Incorrect password",
+            });
+          }
+        });
       }
     })
-    .then((password) => {
-      if (password) {
-        res.status(200).json({
-          success: true,
-          message: "User Logged in successfully!",
-        });
-      } else
-        res.status(400).json({
-          success: true,
-          message: "Incorrect password",
-        });
+    .catch((error) => {
+      res.status(500).json({
+        success: false,
+        message: "An error occurred during login",
+      });
     });
   // res.status(200).send({
   //   success: true,
