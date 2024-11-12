@@ -18,7 +18,7 @@ export class LoginComponent {
   login() {
     const req = this.loginForm.value;
     this.httpclient
-      .put('http://localhost:3000/api/login', req)
+      .put('https://backend-traversal-ten.vercel.app/api/login', req)
       .subscribe((res: any) => {
         console.log(res);
         if (res.success) this.router.navigate(['dashboard']);
@@ -27,7 +27,7 @@ export class LoginComponent {
   signup() {
     const req = this.loginForm.value;
     this.httpclient
-      .post('http://localhost:3000/api/signup', req)
+      .post('https://backend-traversal-ten.vercel.app/api/signup', req)
       .subscribe((res: any) => {
         console.log(res);
         if (res.success) this.router.navigate(['dashboard']);
