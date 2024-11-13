@@ -11,6 +11,7 @@ import * as H from '@here/maps-api-for-javascript';
 import { PinDialogComponent } from '../dashboard/pin-dialog/pin-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../general/confirm-dialog/confirm-dialog.component';
+import { HttpClient } from '@angular/common/http';
 
 // Define the structure for geocoding results
 interface GeocodeResult {
@@ -38,7 +39,7 @@ export class MapComponent {
   searchQuery: string = '';
   searchOptions: any[] = [];
 
-  constructor(public dialog: MatDialog) {}
+  constructor(public dialog: MatDialog, private http: HttpClient) {}
 
   // Open a dialog for pin information
   openDialog(data: any, marker?: any) {
@@ -159,7 +160,17 @@ export class MapComponent {
     const icon = new H['default'].map.Icon('../../assets/location-pin.png', {
       size: { w: 50, h: 50 },
     });
+    this.http
+      .post('https://backend-traversal-ten.vercel.app/api/pin', {
+        lat,
+        lng,
+        date: result,
+      })
+      .subscribe((res) => {
+        console.log(res);
+      });
     this.locallyStoredMarkers.push([lat, lng, result]);
+
     window.localStorage.setItem(
       'markers',
       JSON.stringify(this.locallyStoredMarkers)
