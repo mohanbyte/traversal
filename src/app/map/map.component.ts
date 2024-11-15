@@ -161,10 +161,10 @@ export class MapComponent {
       size: { w: 50, h: 50 },
     });
     this.http
-      .post('https://backend-traversal-ten.vercel.app/api/pin', {
+      .post('https://backend-traversal-ten.vercel.app/pins', {
         lat,
         lng,
-        date: result,
+        data: result,
       })
       .subscribe((res) => {
         console.log(res);
